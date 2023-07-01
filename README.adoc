@@ -1,0 +1,116 @@
+= Hello Lambda CDK Template
+
+You've found the easiest way to get started deploying a Java Lambda-based stack using the AWS CDK! Well, easier than some ways. Probably.
+
+== What can it do?
+
+This template is using the following tech:
+
+* *Java 17*, the latest Java LTS which is https://aws.amazon.com/about-aws/whats-new/2023/04/aws-lambda-java-17/[now supported] on AWS Lambda.
+* *AWS CDK*, the AWS-official infrastructure-as-code option. Using TypeScript!
+* *Gradle 8*, for the latest build mojo. Using the new Kotlin syntax.
+* *ESLint and Prettier*, to keep your CDK TypeScript looking spiffy.
+* *Spotless*, to keep your Java code, well...spotless.
+
+This template is for Java, but Kotlin support is easy to enable by uncommenting the marked bits in the link:app/build.gradle.kts[build.gradle.kts] file.
+
+=== What doesn't it do?
+
+* It doesn't create native images, which could help with cold starts.
+* It doesn't do anything with frontend. You're on your own for that.
+* It doesn't include authentication or DDoS/bot mitigation.
+
+== Prerequisites 📋
+
+Still with me? Great, here's your preflight checklist (commands to be run in your terminal):
+
+* `java -version` -- running this should print out a version string for Java 17. Otherwise, you'll need to find and install it.
+* `node --version` -- running this should print out a v18 version string, like `v18.16.0`. If not, consider using something like https://github.com/nvm-sh/nvm[nvm] to install and use Node. You're also assumed to have `npm` on your path.
+* `cdk --version` -- running this should print out a 2.x version string, like `2.85.0 (build 4e0d726)`. If not, directions for installing it are linked from the CDK Setup section just below.
+
+At this point you should have each of those CLI applications on your path, and running the above commands should print out sane values.
+
+== CDK Setup
+
+Since this template deploys to an AWS account from your terminal, you'll need to do some setup to ensure the build logic can invoke the CDK CLI successfully.
+
+Follow the official https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html[CDK Getting Started] guide, bearing in mind this template uses TypeScript for the CDK portion.
+
+You'll need to set up authentication (via `aws configure sso`) and bootstrap the account (using the described `cdk bootstrap` command).
+
+== AWS SSO Login
+
+After the setup is complete, you'll periodically need to run:
+
+[source]
+----
+aws sso login
+----
+
+to refresh your session. If your profile has a name (which the CLI recommends), make sure to export the name to an environment variable, so commands that expect a profile can use it without passing a parameter:
+
+[source]
+----
+# use your profile name instead
+# on Mac and Linux:
+export AWS_PROFILE=hellolambda
+----
+
+Alternatively, you can update `aws.profile` in link:gradle.properties[gradle.properties] to point to your profile.
+
+== 🚀🚀 Time to Deploy! 🚀🚀 ==
+
+This repository is a GitHub template. To use this template, click the big green `Use this template` button near the top of this page. This will create a brand new repository with a fresh commit history in your own account. You can then clone that repository as usual to continue.
+
+IMPORTANT: By default, the deployed stack will be called "SampleStack" and deployed into the `us-west-2` region. If this is undesirable to you, change the configuration in link:cdk/bin/cdk.ts[cdk.ts] now.
+
+Gradle tasks have been registered that make it easy to compile and zip your Java code and deploy it in a single line.
+
+Just run:
+
+[source,shell]
+----
+./gradlew deploy
+----
+
+This will deploy the new CloudFormation stack into your AWS account. It should take a bit under 2 minutes, but future deployments will often be faster.
+
+https://docs.aws.amazon.com/cdk/v2/guide/cli.html#cli-deploy-hotswap[Hotswapping] is also supported and recommended for rapid Lambda development:
+
+[source,shell]
+----
+./gradlew deployHotswap
+----
+
+Alternatively, for more control, you can invoke the `cdk` command directly from inside the link:cdk[cdk] subdirectory. Just make sure you run `./gradlew buildZip` from the package root to compile and package any Java changes, first.
+
+== What's here? 👀
+
+There are:
+
+* Several small random Lambdas, which you can find in link:app/src/main/java/com/example/[example], and
+* One API Gateway REST API fronting an link:app/src/main/java/com/example/HelloHttpHandler.java[HTML-emitting Lambda]
+
+=== Cost 💸
+
+Cost should be negligible (under $1 USD/mo) until you make significant changes. As the license implies, this template nor its authors are responsible for any costs you incur by using this template. You can monitor your AWS spend in the https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/view-billing-dashboard.html[Billing Dashboard],
+
+== Where to go from here? 🏗
+
+If you want to create more lambdas, jump into the link:app[app] code and create new https://docs.aws.amazon.com/lambda/latest/dg/java-handler.html[handlers] there. If you want to create new AWS infra, update the https://docs.aws.amazon.com/cdk/v2/guide/home.html[CDK] code using the many https://docs.aws.amazon.com/cdk/api/v2/docs/aws-construct-library.html[official] and https://constructs.dev/[unofficial] constructs.
+
+Feel free to delete this file whenever you're ready, or better yet, replace it with your own README. (or a README.md)
+
+That should be it. Happy developing!
+
+== Tear down 👋😢 ==
+
+If you want to destroy the stacks created by this template, you can either go into the link:cdk[cdk] directory and run `cdk destroy`, or you can navigate to CloudFormation in the AWS Console and destroy the stack created there (called `SampleStack` by default).
+
+After stack teardown is complete, display `Deleted` stacks in the CloudFormation console and select the stack you just deleted. In the Resources tab, if there are any resources that aren't `DELETE_COMPLETE`, you may need to delete those resources manually.
+
+== License 👮
+
+This project is licensed under the https://opensource.org/license/mit/[MIT License].
+
+(A `LICENSE` file isn't present because this repository is meant to be used as a template, and I don't want users to accidentally MIT-license code created from this template.)
