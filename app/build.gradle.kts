@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("com.diffplug.spotless") version "6.19.0"
+    id("com.diffplug.spotless") version "6.25.0"
 }
 
 group = "org.example"
@@ -17,6 +17,7 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.9.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.assertj:assertj-core:3.24.2")
 
     // Kotlin
@@ -26,7 +27,7 @@ dependencies {
 spotless {
     java {
         removeUnusedImports()
-        googleJavaFormat()
+        palantirJavaFormat()
         formatAnnotations()
     }
 }
