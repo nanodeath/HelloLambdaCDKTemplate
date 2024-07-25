@@ -30,7 +30,7 @@ export class CdkStack extends cdk.Stack {
         ),
         layerVersionName: "AppDependencies",
         description: "Dependencies common to all lambdas",
-        compatibleRuntimes: [lambda.Runtime.JAVA_17],
+        compatibleRuntimes: [lambda.Runtime.JAVA_21],
         compatibleArchitectures: [
           lambda.Architecture.ARM_64,
           lambda.Architecture.X86_64,
@@ -45,7 +45,7 @@ export class CdkStack extends cdk.Stack {
       code: lambda.Code.fromAsset(
         "../app/build/distributions/app-1.0-SNAPSHOT.zip"
       ),
-      runtime: lambda.Runtime.JAVA_17,
+      runtime: lambda.Runtime.JAVA_21,
       memorySize: 1024,
       architecture: lambda.Architecture.ARM_64,
       layers: [appDependenciesLayer],
