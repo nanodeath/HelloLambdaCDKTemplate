@@ -6,7 +6,7 @@ You've found the easiest way to get started deploying a Java Lambda-based stack 
 
 This template is using the following tech:
 
-* *Java 17*, the latest Java LTS which is https://aws.amazon.com/about-aws/whats-new/2023/04/aws-lambda-java-17/[now supported] on AWS Lambda.
+* *Java 21*, the latest Java LTS which is https://aws.amazon.com/about-aws/whats-new/2023/11/aws-lambda-support-java-21/[now supported] on AWS Lambda.
 * *AWS CDK*, the AWS-official infrastructure-as-code option. Using TypeScript!
 * *Gradle 8*, for the latest build mojo. Using the new Kotlin syntax.
 * *ESLint and Prettier*, to keep your CDK TypeScript looking spiffy.
@@ -24,8 +24,8 @@ This template is for Java, but Kotlin support is easy to enable by uncommenting 
 
 Still with me? Great, here's your preflight checklist (commands to be run in your terminal):
 
-* `java -version` -- running this should print out a version string for Java 17. Otherwise, you'll need to find and install it.
-* `node --version` -- running this should print out a v18 version string, like `v18.16.0`. If not, consider using something like https://github.com/nvm-sh/nvm[nvm] to install and use Node. You're also assumed to have `npm` on your path.
+* `java -version` -- running this should print out a version string for Java 21. Otherwise, you'll need to find and install it.
+* `node --version` -- running this should print out a v20 (or later) version string, like `v20.14.0`. If not, consider using something like https://github.com/nvm-sh/nvm[nvm] to install and use Node. You're also assumed to have `npm` on your path.
 * `cdk --version` -- running this should print out a 2.x version string, like `2.85.0 (build 4e0d726)`. If not, directions for installing it are linked from the CDK Setup section just below.
 
 At this point you should have each of those CLI applications on your path, and running the above commands should print out sane values.
@@ -107,7 +107,7 @@ That should be it. Happy developing!
 
 If you want to destroy the stacks created by this template, you can either go into the link:cdk[cdk] directory and run `cdk destroy`, or you can navigate to CloudFormation in the AWS Console and destroy the stack created there (called `SampleStack` by default).
 
-After stack teardown is complete, display `Deleted` stacks in the CloudFormation console and select the stack you just deleted. In the Resources tab, if there are any resources that aren't `DELETE_COMPLETE`, you may need to delete those resources manually.
+After stack teardown is complete, display `Deleted` stacks in the CloudFormation console and select the stack you just deleted. In the Resources tab, if there are any resources that aren't `DELETE_COMPLETE`, you may need to delete those resources manually -- especially things like CloudFormation LogGroups for the Lambdas.
 
 == License 👮
 
