@@ -7,6 +7,7 @@ import {
   WafwebaclToApiGatewayProps,
   WafwebaclToApiGateway,
 } from "@aws-solutions-constructs/aws-wafwebacl-apigateway";
+import { RetentionDays } from "aws-cdk-lib/aws-logs";
 
 export class CdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -19,6 +20,8 @@ export class CdkStack extends cdk.Stack {
     //   visibilityTimeout: cdk.Duration.seconds(300)
     // });
 
+    const runtime = lambda.Runtime.JAVA_21;
+
     // Factoring dependencies out into a separate layer isn't required,
     // but might speed up deployments.
     const appDependenciesLayer = new lambda.LayerVersion(
@@ -30,7 +33,7 @@ export class CdkStack extends cdk.Stack {
         ),
         layerVersionName: "AppDependencies",
         description: "Dependencies common to all lambdas",
-        compatibleRuntimes: [lambda.Runtime.JAVA_21],
+        compatibleRuntimes: [runtime],
         compatibleArchitectures: [
           lambda.Architecture.ARM_64,
           lambda.Architecture.X86_64,
@@ -45,10 +48,11 @@ export class CdkStack extends cdk.Stack {
       code: lambda.Code.fromAsset(
         "../app/build/distributions/app-1.0-SNAPSHOT.zip"
       ),
-      runtime: lambda.Runtime.JAVA_21,
+      runtime,
       memorySize: 1024,
       architecture: lambda.Architecture.ARM_64,
       layers: [appDependenciesLayer],
+      logRetention: RetentionDays.SIX_MONTHS,
     };
 
     // Here we have a couple basic example lambdas we define directly and can later invoke in the AWS console.
