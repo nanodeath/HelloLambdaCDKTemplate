@@ -9,7 +9,7 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "fix-format": "npx eslint --ext ts lib test --fix && prettier --write \"{lib,test}/**/*.ts\""
+    "fix-format": "eslint --ext ts lib test --fix && prettier --write \"{lib,test}/**/*.ts\""
   },
   "devDependencies": {
     "@types/jest": "^29.5.1",
